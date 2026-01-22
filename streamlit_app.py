@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request, jsonify
+import streamlit as st
 import random, ast, operator
 
-app = Flask(__name__)
+st.set_page_config(page_title="คณิตคิดสนุก")
 
 OPS = {
     ast.Add: operator.add,
@@ -22,22 +22,34 @@ def safe_eval(expr):
         raise ValueError
     return eval_node(ast.parse(expr, mode='eval').body)
 
-@app.route('/')
-def index():
-    return render_template(
-        'index.html',
-        numbers=[random.randint(0,9) for _ in range(5)],
-        target=random.randint(9,999)
-    )
+st.title("🎯 เกมคณิตคิดสนุก")
 
-@app.route('/check', methods=['POST'])
-def check():
-    data = request.json
+# สุ่มเลขครั้งแรก
+if "numbers" not in st.session_state:
+    st.session_state.numbers = [random.randint(0,9) for _ in range(5)]
+    st.session_state.target = random.randint(9,999)
+
+numbers = st.session_state.numbers
+target = st.session_state.target
+
+st.write("🔢 ตัวเลขที่ได้:", numbers)
+st.write("🎯 เป้าหมาย:", target)
+
+expr = st.text_input(
+    "พิมพ์วิธีคิดของคุณ (เช่น (1+2)*3 ):"
+)
+
+if st.button("ตรวจคำตอบ"):
     try:
-        result = safe_eval(data['expr'])
-        return jsonify(correct=result == data['target'], result=result)
+        result = safe_eval(expr)
+        if result == target:
+            st.success(f"ถูกต้อง 🎉 ผลลัพธ์ = {result}")
+        else:
+            st.error(f"ยังไม่ถูก ❌ ได้ {result}")
     except:
-        return jsonify(error=True)
+        st.warning("รูปแบบสมการไม่ถูกต้อง")
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if st.button("สุ่มโจทย์ใหม่"):
+    st.session_state.numbers = [random.randint(0,9) for _ in range(5)]
+    st.session_state.target = random.randint(9,999)
+    st.experimental_rerun()
