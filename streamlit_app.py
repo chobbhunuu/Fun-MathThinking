@@ -27,7 +27,7 @@ st.title("🎯 เกมคณิตคิดสนุก")
 # สุ่มเลขครั้งแรก
 if "numbers" not in st.session_state:
     st.session_state.numbers = [random.randint(0,9) for _ in range(5)]
-    st.session_state.target = random.randint(9,999)
+    st.session_state.target = random.randint(9,99)
 
 numbers = st.session_state.numbers
 target = st.session_state.target
@@ -51,5 +51,6 @@ if st.button("ตรวจคำตอบ"):
 
 if st.button("สุ่มโจทย์ใหม่"):
     st.session_state.numbers = [random.randint(0,9) for _ in range(5)]
-    st.session_state.target = random.randint(9,999)
+    st.session_state.target = random.randint(9,99)
     st.experimental_rerun()
+
