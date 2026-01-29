@@ -22,18 +22,18 @@ def safe_eval(expr):
         raise ValueError
     return eval_node(ast.parse(expr, mode='eval').body)
 
-st.title("🎯 เกมคณิตคิดสนุก")
+st.title("🎯 เกมคณิตคิดสนุก🫣😽")
 
 # สุ่มเลขครั้งแรก
 if "numbers" not in st.session_state:
     st.session_state.numbers = [random.randint(0,9) for _ in range(5)]
-    st.session_state.target = random.randint(9,99)
+    st.session_state.target = random.randint(9,50)
 
 numbers = st.session_state.numbers
 target = st.session_state.target
 
 st.write("🔢 ตัวเลขที่ได้:", numbers)
-st.write("🎯 เป้าหมาย:", target)
+st.write("🎯 เป้าหมาย🙌:", target)
 
 expr = st.text_input(
     "พิมพ์วิธีคิดของคุณ (เช่น (1+2)*3 ):"
@@ -51,6 +51,7 @@ if st.button("ตรวจคำตอบ"):
 
 if st.button("สุ่มโจทย์ใหม่"):
     st.session_state.numbers = [random.randint(0,9) for _ in range(5)]
-    st.session_state.target = random.randint(9,99)
+    st.session_state.target = random.randint(9,50)
     st.experimental_rerun()
+
 
